@@ -1,7 +1,7 @@
 package ru.ifmo.data;
 
 /**
- * Equation parameters which may vary, physical and computational
+ * Equation parameters which may vary
  */
 public class Parameters {
     /**
@@ -13,7 +13,7 @@ public class Parameters {
      * Physical parameters
      */
     public final double dt;
-    public final double dx;
+    public final double dz;
 
     // TODO: add as many as you can!
     // TODO: but only variable ones

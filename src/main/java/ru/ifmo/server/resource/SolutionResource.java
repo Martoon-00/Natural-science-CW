@@ -1,14 +1,11 @@
 package ru.ifmo.server.resource;
 
 import com.sun.jersey.spi.resource.Singleton;
-import ru.ifmo.data.Parameters;
 import ru.ifmo.methods.RegisteredSolvers;
 import ru.ifmo.methods.Solver;
-import ru.ifmo.server.ServerHelper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Path("science")
@@ -47,11 +44,11 @@ public class SolutionResource {
                 if (solver == null)
                     throw new IllegalArgumentException(String.format("'%s' method is not registered", method));
 
-                List<List<Double>> solution = solver.solve(new InitialConditions(x0, xn, dx, ServerHelper.parseDoubles(bound)), from + num, new Parameters(dt, dx, u, kappa))
-                        .subList(from, from + num);
-
-                answer.append(ServerHelper.solutionToString(solution))
-                        .append("\n");
+//                List<List<Double>> solution = solver.solve(new InitialConditions(x0, xn, dx, ServerHelper.parseDoubles(bound)), from + num, new Parameters(dt, dx, u, kappa))
+//                        .subList(from, from + num);
+//
+//                answer.append(ServerHelper.solutionToString(solution))
+//                        .append("\n");
             }
 
             String responseServiceInfo = String.format("%d", from);
