@@ -7,10 +7,9 @@ public class RegisteredSolvers {
     /**
      * Map Solver name -> Solver instance
      */
-    public static Map<String, Solver> solvers = new TreeMap<>();
+    public static Map<String, Solver> solvers = new TreeMap<String, Solver>() {{
+        put("Lol", new LolSolver());
+    }};
 
-    static {
-
-    }
 
 }

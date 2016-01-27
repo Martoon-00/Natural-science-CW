@@ -1,8 +1,10 @@
 package ru.ifmo.methods;
 
 import ru.ifmo.data.Parameters;
+import ru.ifmo.data.SimpleTSection;
+
+import java.util.List;
 
 public interface Solver {
-    // TODO: I guess, this one should return something more meaningful
-    void solve(int totalSteps, Parameters params);
+    List<SimpleTSection> solve(int totalSteps, Parameters params);
 }
