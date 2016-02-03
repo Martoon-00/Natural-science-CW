@@ -15,7 +15,10 @@ public class Parameters {
     public final double alpha;
     public final double dt;
     public final double dz;
-    public final int zNum;  // number of x steps, equals to 1 / dz
+
+    // Number of z steps, equals to 1 / dz.
+    // We wish to count this here, because there are different ways to perform a rounding of the fraction
+    public final int zNum;
 
     // TODO: add as many as you can!
 
