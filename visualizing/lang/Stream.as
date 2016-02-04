@@ -79,6 +79,10 @@
 		return new Stream(a)
 	}
 	
+	static function iterateIndices(num: Number): Stream {
+		return iterate(0, function(k){ return k + 1 }, num)
+	}
+	
 	static function atRange(range: lang.Range, step: Number): Stream {
 		return iterate(range.a, function(k){ return k + step }, Math.floor(range.length() / step) + 1)
 	}

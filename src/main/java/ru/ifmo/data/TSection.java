@@ -1,7 +1,8 @@
 package ru.ifmo.data;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * System parameters at single slice of time
@@ -10,7 +11,7 @@ public class TSection {
     /**
      * x sections
      */
-    public final List<XSection> xs;
+    public final List<ZSection> xs;
 
     /**
      * front position.
@@ -24,15 +25,26 @@ public class TSection {
      */
     public final double VF;
 
-    public TSection(List<XSection> xs, double XF, double VF) {
+    public TSection(List<ZSection> xs, double XF, double VF) {
         this.xs = xs;
         this.XF = XF;
         this.VF = VF;
     }
 
-    public List<TSection> extend(List<SimpleTSection> sections) {
+    public static List<TSection> extend(List<SimpleTSection> sections) {
         //TODO: calculate TSection's basing on SimpleTSection's
 
-        return new ArrayList<>();
+        // this is a stub, which evaluates no new values
+        Function<SimpleZSection, ZSection> mapXSection = section ->
+                new ZSection(section.T, section.X, 0);
+        return sections.stream()
+                .map(tSection -> new TSection(
+                        tSection.xs.stream()
+                                .map(mapXSection)
+                                .collect(Collectors.toList()),
+                        0,
+                        0
+                ))
+                .collect(Collectors.toList());
     }
 }

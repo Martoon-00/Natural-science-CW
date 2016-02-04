@@ -2,6 +2,7 @@ package ru.ifmo.server.resource;
 
 import com.sun.jersey.spi.resource.Singleton;
 import ru.ifmo.data.Parameters;
+import ru.ifmo.data.SimpleTSection;
 import ru.ifmo.data.TSection;
 import ru.ifmo.methods.RegisteredSolvers;
 import ru.ifmo.methods.Solver;
@@ -30,25 +31,25 @@ public class SolutionResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
     public String solve(
-            @QueryParam("methods") String methods,
+            @QueryParam("method") String method,
             @QueryParam("from") int from,
             @QueryParam("num") int num,
-            @QueryParam("dx") double dx,
+            @QueryParam("dz") double dz,
             @QueryParam("dt") double dt
     ) {
         try {
             StringBuilder answer = new StringBuilder();
-            for (String method : methods.split(",")) {
-                Solver solver = RegisteredSolvers.solvers.get(method);
-                if (solver == null)
-                    throw new IllegalArgumentException(String.format("'%s' method is not registered", method));
+            Solver solver = RegisteredSolvers.solvers.get(method);
+            if (solver == null)
+                throw new IllegalArgumentException(String.format("'%s' method is not registered", method));
 
-                List<TSection> solution = solver.solve(from + num, new Parameters())
-                        .subList(from, from + num);
+            Parameters params = new Parameters(1, dt, dz);
+            List<SimpleTSection> presolution = solver.solve(from + num, params)
+                    .subList(from, from + num);
+            List<TSection> solution = TSection.extend(presolution);
 
-                answer.append(ServerHelper.solutionToString(solution))
-                        .append("\n");
-            }
+            answer.append(ServerHelper.solutionToString(solution))
+                    .append("\n\n");
 
             String responseServiceInfo = String.format("%d", from);
             return answer

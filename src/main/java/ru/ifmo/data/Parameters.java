@@ -27,6 +27,7 @@ public class Parameters {
         this.alpha = alpha;
         this.dt = dt;
         this.dz = dz;
-        this.zNum = (int) (1 / dz);
+        this.zNum = (int) (1 / dz + 1);
     }
+
 }
