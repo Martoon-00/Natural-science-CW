@@ -25,7 +25,9 @@ class SolutionKeeper {
 		
 		this.method = method
 		data = new Array()
-		BLOCK_SIZE = Math.max(int(50 / (0.1 / params.dz)), 1)
+		BLOCK_SIZE = int(params.loadSpeed)
+		if (BLOCK_SIZE == 0)
+			BLOCK_SIZE = Math.max(int(50 / (0.1 / params.dz)), 1)
 		
 		onUpdate = new Listener()
 		

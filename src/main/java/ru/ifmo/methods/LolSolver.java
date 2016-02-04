@@ -15,7 +15,7 @@ public class LolSolver implements Solver {
      */
     @Override
     public List<SimpleTSection> solve(int totalSteps, Parameters params) {
-        System.out.printf("%d iterations requested", totalSteps);
+        System.out.printf("Lol solver: %d iterations requested\n", totalSteps);
         return Stream.iterate(0, a -> a + 1).limit(totalSteps)
                 .map(t -> new SimpleTSection(
                         Stream.iterate(0, a -> a + 1).limit(params.zNum)
