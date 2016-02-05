@@ -11,22 +11,22 @@ public class TSection {
     /**
      * x sections
      */
-    public final List<ZSection> xs;
+    public final List<ZSection> zs;
 
     /**
-     * front position.
-     * actually we don't need to display this, but it's required
-     * for computation of front speed. So we remain it in debug purposes
+     * front position. This is an optional feature.
+     * Actually we don't need to display it, but it's required
+     * for computation of front speed. So let's remain it in debug purposes
      */
     public final double XF;
 
     /**
-     * front speed
+     * front speed. This is am optional feature
      */
     public final double VF;
 
-    public TSection(List<ZSection> xs, double XF, double VF) {
-        this.xs = xs;
+    public TSection(List<ZSection> zs, double XF, double VF) {
+        this.zs = zs;
         this.XF = XF;
         this.VF = VF;
     }
@@ -39,7 +39,7 @@ public class TSection {
                 new ZSection(section.T, section.X, 0);
         return sections.stream()
                 .map(tSection -> new TSection(
-                        tSection.xs.stream()
+                        tSection.zs.stream()
                                 .map(mapXSection)
                                 .collect(Collectors.toList()),
                         0,
