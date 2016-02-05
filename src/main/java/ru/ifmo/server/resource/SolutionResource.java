@@ -35,15 +35,23 @@ public class SolutionResource {
             @QueryParam("from") int from,
             @QueryParam("num") int num,
             @QueryParam("dz") double dz,
-            @QueryParam("dt") double dt
+            @QueryParam("dt") double dt,
+            @QueryParam("zNum") int zNum
     ) {
         try {
+            // Note: when constructor changes, just assign some temporal values to new parameters
+            Parameters params = new Parameters(
+                    1,
+                    dt,
+                    dz,
+                    zNum
+            );
+
             StringBuilder answer = new StringBuilder();
             Solver solver = RegisteredSolvers.solvers.get(method);
             if (solver == null)
                 throw new IllegalArgumentException(String.format("'%s' method is not registered", method));
 
-            Parameters params = new Parameters(1, dt, dz);
             List<SimpleTSection> presolution = solver.solve(from + num, params)
                     .subList(from, from + num);
             List<TSection> solution = TSection.extend(presolution);
@@ -60,5 +68,6 @@ public class SolutionResource {
             throw e;
         }
     }
+
 
 }
