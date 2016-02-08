@@ -9,30 +9,24 @@ import java.util.stream.Collectors;
  */
 public class TSection {
     /**
-     * x sections
+     * z slices
      */
     public final List<ZSection> zs;
-
-    /**
-     * front position. This is an optional feature.
-     * Actually we don't need to display it, but it's required
-     * for computation of front speed. So let's remain it in debug purposes
-     */
-    public final double XF;
 
     /**
      * front speed. This is am optional feature
      */
     public final double VF;
 
-    public TSection(List<ZSection> zs, double XF, double VF) {
+    public TSection(List<ZSection> zs) {
         this.zs = zs;
-        this.XF = XF;
-        this.VF = VF;
+
+        // who will dare to count it?
+        this.VF = 0;
     }
 
     public static List<TSection> extend(List<SimpleTSection> sections) {
-        //TODO: calculate TSection's basing on SimpleTSection's
+        //TODO: in ZSection calculate VX(t, x) as V(t, x) - V(t - 1, x)
 
         // this is a stub, which evaluates no new values
         Function<SimpleZSection, ZSection> mapXSection = section ->
@@ -41,9 +35,7 @@ public class TSection {
                 .map(tSection -> new TSection(
                         tSection.zs.stream()
                                 .map(mapXSection)
-                                .collect(Collectors.toList()),
-                        0,
-                        0
+                                .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
     }
