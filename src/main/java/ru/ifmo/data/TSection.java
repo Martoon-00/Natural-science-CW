@@ -26,17 +26,15 @@ public class TSection {
     }
 
     public static List<TSection> extend(List<SimpleTSection> sections) {
-        //TODO: in ZSection calculate VX(t, x) as V(t, x) - V(t - 1, x)
+        //TODO: in ZSections calculate VX(t, x) as V(t, x) - V(t - 1, x)
 
         // this is a stub, which evaluates no new values
-        Function<SimpleZSection, ZSection> mapXSection = section ->
-                new ZSection(section.T, section.X, 0);
+        Function<List<SimpleZSection>, List<ZSection>> mapXSections = zSections -> zSections.stream()
+                .map(section -> new ZSection(section.T, section.X, 0))
+                .collect(Collectors.toList());
         return sections.stream()
-                .map(tSection -> new TSection(
-                        tSection.zs.stream()
-                                .map(mapXSection)
-                                .collect(Collectors.toList())
-                ))
+                .map(simpleTSection ->
+                        new TSection(mapXSections.apply(simpleTSection.zs)))
                 .collect(Collectors.toList());
     }
 }
