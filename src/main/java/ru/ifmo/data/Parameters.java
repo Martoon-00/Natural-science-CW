@@ -14,7 +14,9 @@ public class Parameters {
     public static final double rho = 830;
     public static final double T0 = 293;
     public static final double C = 1980;
+    public static final double Tm = T0 + Q / C;
     public static final double lambda = 0.13;
+    public static final double kappa = lambda / (rho * C);
 
     //// TODO:  D = 8e-12 
     public static final double D = 7.9104296e-8;
