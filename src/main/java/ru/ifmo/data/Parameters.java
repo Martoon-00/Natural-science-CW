@@ -8,6 +8,16 @@ public class Parameters {
      * Constant parameters
      */
     public static final double K = 1.6e6;
+    public static final double E = 8e4;
+    public static final double R = 8.314;
+    public static final double Q = 7e5;
+    public static final double rho = 830;
+    public static final double T0 = 293;
+    public static final double C = 1980;
+    public static final double lambda = 0.13;
+
+    //// TODO:  D = 8e-12 
+    public static final double D = 7.9104296e-8;
 
     /**
      * Varying parameters
