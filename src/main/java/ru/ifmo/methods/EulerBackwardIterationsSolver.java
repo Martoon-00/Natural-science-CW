@@ -9,7 +9,11 @@ import java.util.List;
 
 public class EulerBackwardIterationsSolver extends BackwardSolver {
 
-    private final int iterationsNum = 5; // TODO!!!
+    private int iterationsNumber;
+
+    public EulerBackwardIterationsSolver(int iterationsNumber) {
+        this.iterationsNumber = iterationsNumber;
+    }
 
     @Override
     public List<SimpleTSection> solve(int totalSteps, Parameters params) {
@@ -36,7 +40,7 @@ public class EulerBackwardIterationsSolver extends BackwardSolver {
         }
 
         for (int k = 1; k < totalSteps; k++) {
-            for (int j = 0; j < iterationsNum; ++j) {
+            for (int j = 0; j < iterationsNumber; ++j) {
                 List<Double> dX = new ArrayList<>(prevL.size());
                 dX.add(0.0);
                 for (int i = 1; i < prevL.size() - 1; ++i) {
