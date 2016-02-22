@@ -9,6 +9,7 @@ public class RegisteredSolvers {
      */
     public static Map<String, Solver> solvers = new TreeMap<String, Solver>() {{
         put("Lol", new LolSolver());
+        put("Euler Forward", new EulerForwardSolver());
     }};
 
 
