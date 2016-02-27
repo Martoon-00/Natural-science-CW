@@ -2,10 +2,9 @@ package ru.ifmo.server.resource;
 
 import com.sun.jersey.spi.resource.Singleton;
 import ru.ifmo.data.Parameters;
-import ru.ifmo.data.SimpleTSection;
 import ru.ifmo.data.TSection;
+import ru.ifmo.methods.ExtendedSolver;
 import ru.ifmo.methods.RegisteredSolvers;
-import ru.ifmo.methods.Solver;
 import ru.ifmo.server.ServerHelper;
 
 import javax.ws.rs.*;
@@ -49,13 +48,12 @@ public class SolutionResource {
             );
 
             StringBuilder answer = new StringBuilder();
-            Solver solver = RegisteredSolvers.solvers.get(method);
+            ExtendedSolver solver = RegisteredSolvers.solvers.get(method);
             if (solver == null)
                 throw new IllegalArgumentException(String.format("'%s' method is not registered", method));
 
-            List<SimpleTSection> presolution = solver.solve(from + num, params)
+            List<TSection> solution = solver.extendedSolve(from + num, params)
                     .subList(from, from + num);
-            List<TSection> solution = TSection.extend(presolution);
 
             answer.append(ServerHelper.solutionToString(solution))
                     .append("\n\n");
