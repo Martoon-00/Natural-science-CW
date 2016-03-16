@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class LolSolver extends Solver {
 
     /**
-     * Describes a moving wave
+     * X describes a moving wave and T describes a line
      */
     @Override
     public List<SimpleTSection> solve(int totalSteps, Parameters params) {

@@ -32,9 +32,6 @@ public class Parameters {
     // We wish to count or get this here, because there are different ways to perform a rounding of the fraction
     public final int zNum;
 
-    // TODO: add as many as you can!
-
-
     public Parameters(double alpha, double dt, double dz, int zNum) {
         this.alpha = alpha;
         this.dt = dt;
