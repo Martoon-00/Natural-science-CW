@@ -220,7 +220,7 @@ class diag.Diagram extends MovieClip {
 	function checkResize(points): Void { 
 		if (!yAutoScale) return;
 		
-		var lf = math.LinearFunc.normalizer(new Stream(points.concat(new Coord(0, 0), new Coord(0, 1)))
+		var lf = math.LinearFunc.normalizer(new Stream(points.concat(new Coord(0, 0), new Coord(0, 1e-2)))
 			.map(Stream.GETTER("y"))
 			.toArray())
 		
