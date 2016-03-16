@@ -198,6 +198,7 @@ class diag.Diagram extends MovieClip {
 		for (var i = 0; i < toDraw.length; i++) allPoints = allPoints.concat(toDraw[i].points)
 		checkResize(allPoints)
 		
+		var scalingTrans: Transform = Transform.SCALE(fieldSize.x, -fieldSize.y)
 		for (var i = 0; i < toDraw.length; i++) {
 			var liner = toDraw[i].liner
 			var points = toDraw[i].points
@@ -205,7 +206,7 @@ class diag.Diagram extends MovieClip {
 			var dr = new Drawer(field)
 				.lineStyle(1, 0)
 				.apply(liner)
-				.transform(Transform.SCALE(fieldSize.x, -fieldSize.y))
+				.transform(scalingTrans)
 			
 			new Stream(points)
 				.map(function(c: Coord){ return new Coord(c.x, _this.yScale.apply(c.y)) })
@@ -213,6 +214,12 @@ class diag.Diagram extends MovieClip {
 					dr.lineTo(point)
 				})
 		}
+		
+		new Drawer(field)
+			.lineStyle(2, 0x00FF00)
+			.transform(scalingTrans)
+			.moveTo(xScale.apply(0), yScale.apply(0))
+			.lineTo(xScale.apply(1), yScale.apply(0))
 		return this
 	}
 	

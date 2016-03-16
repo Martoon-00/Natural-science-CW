@@ -22,7 +22,7 @@ public class LolSolver extends Solver {
                                 .map(z -> z * params.dz)
                                 .map(z -> new SimpleZSection(
                                         z * t,
-                                        1.5 / (1 + Math.exp(Math.pow((z - 0.5 * (1 - Math.exp((double)-t / 100) * 4)), 2)))
+                                        -15 / (1 + Math.exp(Math.pow((z - 0.5 * (1 - Math.exp((double)-t / 100) * 4)), 2)))
                                 )).collect(Collectors.toList())
                 )).collect(Collectors.toList());
     }

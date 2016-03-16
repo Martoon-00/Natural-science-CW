@@ -11,7 +11,7 @@ public abstract class Solver implements ExtendedSolver {
     @Override
     public List<TSection> extendedSolve(int totalSteps, Parameters params) {
         List<TSection> presolution = TSection.extend(solve(totalSteps, params));
-        // divide newly created VXs by dt
+        // divide newly created VXs (simple differences) by dt to gain correct derivations
         Function<List<ZSection>, List<ZSection>> mapZSections = zSections -> zSections.stream()
                 .map(section -> new ZSection(section.T, section.X, section.VX / params.dt))
                 .collect(Collectors.toList());
