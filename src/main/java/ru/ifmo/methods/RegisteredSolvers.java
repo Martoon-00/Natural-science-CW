@@ -12,8 +12,7 @@ public class RegisteredSolvers {
         put("Euler Forward", new EulerForwardSolver());
         put("Euler Backward", new EulerBackwardSolver());
         put("Euler Backward Diagonal", new EulerBackwardDiagSolver());
-        put("Euler Backward Iterations 5", new EulerBackwardIterationsSolver(5));
-        put("Euler Backward Iterations 10", new EulerBackwardIterationsSolver(10));
+        put("Euler Backward 5 Iterations", new EulerBackwardIterationsSolver(5));
     }};
 
 

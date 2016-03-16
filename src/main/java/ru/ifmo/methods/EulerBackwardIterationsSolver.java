@@ -34,9 +34,9 @@ public class EulerBackwardIterationsSolver extends BackwardSolver {
 
         List<Double> curX = new ArrayList<>(prevL.size());
         List<Double> curT = new ArrayList<>(prevL.size());
-        for (int i = 0; i < prevL.size(); ++i) {
-            curX.set(i, prevL.get(i).X);
-            curT.set(i, prevL.get(i).T);
+        for (SimpleZSection section : prevL) {
+            curX.add(section.X);
+            curT.add(section.T);
         }
 
         for (int k = 1; k < totalSteps; k++) {
