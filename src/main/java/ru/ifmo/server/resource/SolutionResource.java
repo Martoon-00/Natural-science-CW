@@ -35,7 +35,7 @@ public class SolutionResource {
             @QueryParam("num") int num,
             @QueryParam("dz") double dz,
             @QueryParam("dt") double dt,
-            @QueryParam("alpha") int alpha,
+            @QueryParam("alpha") double alpha,
             @QueryParam("zNum") int zNum
     ) {
         try {

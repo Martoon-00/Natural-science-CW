@@ -15,9 +15,9 @@
             <version>1.8</version>
         </dependency>
         <dependency>
-            <groupId>org.jhades</groupId>
-            <artifactId>jhades</artifactId>
-            <version>1.0.4</version>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.18.1</version>
         </dependency>
     </dependencies>
 
