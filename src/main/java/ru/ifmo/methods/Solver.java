@@ -10,14 +10,16 @@ import java.util.stream.Collectors;
 public abstract class Solver implements ExtendedSolver {
     @Override
     public List<TSection> extendedSolve(int totalSteps, Parameters params) {
-        List<TSection> presolution = TSection.extend(solve(totalSteps, params));
-        // divide newly created VXs (simple differences) by dt to gain correct derivations
-        Function<List<ZSection>, List<ZSection>> mapZSections = zSections -> zSections.stream()
-                .map(section -> new ZSection(section.T, section.X, section.VX / params.dt))
-                .collect(Collectors.toList());
+        List<SimpleTSection> presolution = solve(totalSteps, params);
+
+        Function<SimpleZSection, ZSection> mapZSection = section ->
+                new ZSection(section.T, section.X, w(section.X, section.T, params));
         return presolution.stream()
-                .map(tSection ->
-                        new TSection(mapZSections.apply(tSection.zs)))
+                .map(tSection -> new TSection(
+                        tSection.zs.stream()
+                                .map(mapZSection)
+                                .collect(Collectors.toList())
+                ))
                 .collect(Collectors.toList());
     }
 

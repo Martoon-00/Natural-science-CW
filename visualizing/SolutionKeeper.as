@@ -71,7 +71,7 @@ class SolutionKeeper {
 			var lines = block.split("\n")
 			res.zSections = lines.slice(0, -1).map(function(line) {
 				var vals = line.split(" ").map(function(v){ return Number(v.replace(",", ".")) })
-				return { t: vals[0], x: vals[1], vx: vals[2] }
+				return { t: vals[0], x: vals[1], w: vals[2] }
 			})
 			res.vf = Number(lines[lines.length - 1])
 			return res
