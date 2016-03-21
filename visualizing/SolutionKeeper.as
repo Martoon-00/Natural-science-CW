@@ -27,7 +27,7 @@ class SolutionKeeper {
 		data = new Array()
 		BLOCK_SIZE = int(params.loadSpeed)
 		if (BLOCK_SIZE == 0)
-			BLOCK_SIZE = Math.max(int(50 / (0.1 / params.dz)), 1)
+			BLOCK_SIZE = Math.max(int(20 / (0.1 / params.dz)), 1)
 		
 		onUpdate = new Listener()
 		
@@ -51,7 +51,7 @@ class SolutionKeeper {
 			_global.setTimeout(function(){ _this.check() }, CHECK_DELAY)
 	}
 	
-	private function fillData(received: Object): Void { 
+	private function fillData(received: Object): Void {  
 		var blockIndex:Number = received.from
 		var receivedData: Array = received.data
 		var dataSize = data.length
@@ -66,7 +66,7 @@ class SolutionKeeper {
 		}
 	}
 	
-	private static function parseData(s: String) {   // converts to data array [index in block][x]
+	private static function parseData(s: String) {  // converts to data array [index in block][x]
 		function parseBlock(block: String) {
 			var res = {}
 			var lines = block.split("\n")
@@ -82,6 +82,15 @@ class SolutionKeeper {
 		var curData = blocks.slice(0, -1).map(parseBlock)		
 		var extra = blocks[blocks.length - 1].split(" ").map(function(v){ return Number(v) })
 		return { data: curData, from: extra[0] }
+	}
+	
+	private static function paramsToString(params: Object) {
+		var s: String = ""
+		for (var i in params) {
+			var p = params[i]
+			s += i + ":" + p[i] + ","
+		}
+		return s.slice(0, -1)
 	}
 	
 	function available(): Number { return data.length }

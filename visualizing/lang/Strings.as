@@ -18,6 +18,10 @@
 			return res
 		}
 		
+		proto.replaceAll = function(pattern: String, to: String) {
+			return this.replace(pattern, to, Number.POSITIVE_INFINITY)
+		}
+		
 		proto.find = function() {
 			for (var i = 0; i < this.length; i++) {
 				for (var j = 0; j < arguments.length; j++) {

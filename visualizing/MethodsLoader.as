@@ -25,5 +25,15 @@ class MethodsLoader {
 					onLoad() 
 				}
 			})
+			
+		_global._rootUrl.request("defparams")
+			.send(function(data: String){
+				var res = {}
+				data.split(",").map(function(part: String){
+					var blocks = part.split(":")
+					res[blocks[0]] = blocks[1]
+				})										
+				_global._defaultParams = res
+			})
 	}
 }

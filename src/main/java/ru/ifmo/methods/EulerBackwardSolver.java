@@ -11,7 +11,7 @@ public class EulerBackwardSolver extends BackwardSolver {
 
     @Override
     public List<SimpleTSection> solve(int totalSteps, Parameters params) {
-        SimpleTSection prev = initTX(params.zNum);
+        SimpleTSection prev = initTX(params);
 
         List<SimpleTSection> res = new ArrayList<>();
         res.add(prev);
@@ -19,9 +19,9 @@ public class EulerBackwardSolver extends BackwardSolver {
         double dz = params.dz;
         double dt = params.dt;
         final double D = params.D;
-        final double kappa = Parameters.kappa;
-        final double Q = Parameters.Q;
-        final double C = Parameters.C;
+        final double kappa = params.kappa;
+        final double Q = params.Q;
+        final double C = params.C;
         List<SimpleZSection> prevL = prev.zs;
 
         prepareForProgonka(prevL.size(), D, kappa, dt, dz);
@@ -35,11 +35,11 @@ public class EulerBackwardSolver extends BackwardSolver {
             dX.add(1.0);
 
             List<Double> dT = new ArrayList<>(prevL.size());
-            dT.add(Parameters.Tm);
+            dT.add(params.Tm);
             for (int i = 1; i < prevL.size() - 1; ++i) {
                 dT.add(prevL.get(i).T / dt - Q / C * w(prevL.get(i).X, prevL.get(i).T, params));
             }
-            dT.add(Parameters.T0);
+            dT.add(params.T0);
 
             List<Double> nextX = applyProgonka(aX, bX, cX, dX);
             List<Double> nextT = applyProgonka(aT, bT, cT, dT);

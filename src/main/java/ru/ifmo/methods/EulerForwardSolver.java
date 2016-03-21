@@ -12,7 +12,7 @@ public class EulerForwardSolver extends Solver {
 
     @Override
     public List<SimpleTSection> solve(int totalSteps, Parameters params) {
-        SimpleTSection prev = initTX(params.zNum);
+        SimpleTSection prev = initTX(params);
 
         List<SimpleTSection> res = new ArrayList<>();
         res.add(prev);
@@ -20,12 +20,12 @@ public class EulerForwardSolver extends Solver {
         double dz = params.dz;
         double dt = params.dt;
         final double D = params.D;
-        final double kappa = Parameters.kappa;
+        final double kappa = params.kappa;
         List<SimpleZSection> prevL = prev.zs;
 
         for (int k = 1; k < totalSteps; k++) {
             List<SimpleZSection> newTX = new ArrayList<>();
-            newTX.add(new SimpleZSection(Parameters.Tm, 0));
+            newTX.add(new SimpleZSection(params.Tm, 0));
             for (int i = 1; i < params.zNum - 1; i++) {
                 double newT = dt * (kappa * (prevL.get(i - 1).T - 2 * prevL.get(i).T + prevL.get(i + 1).T)
                         / Math.pow(dz, 2)
@@ -35,7 +35,7 @@ public class EulerForwardSolver extends Solver {
                         + w(prevL.get(i).X, prevL.get(i).T, params)) + prevL.get(i).X;
                 newTX.add(new SimpleZSection(newT, newX));
             }
-            newTX.add(new SimpleZSection(Parameters.T0, 1));
+            newTX.add(new SimpleZSection(params.T0, 1));
             res.add(new SimpleTSection(newTX));
             prevL = newTX;
         }
