@@ -33,7 +33,7 @@ class MethodsLoader {
 					var blocks = part.split(":")
 					res[blocks[0]] = blocks[1]
 				})										
-				_global._defaultParams = res
+				_global._defaultParams = res.copy({ loadSpeed: 10 })
 			})
 	}
 }
