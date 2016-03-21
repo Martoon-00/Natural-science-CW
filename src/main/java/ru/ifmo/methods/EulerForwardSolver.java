@@ -19,7 +19,7 @@ public class EulerForwardSolver extends Solver {
 
         double dz = params.dz;
         double dt = params.dt;
-        final double D = Parameters.D;
+        final double D = params.D;
         final double kappa = Parameters.kappa;
         List<SimpleZSection> prevL = prev.zs;
 
@@ -29,10 +29,10 @@ public class EulerForwardSolver extends Solver {
             for (int i = 1; i < params.zNum - 1; i++) {
                 double newT = dt * (kappa * (prevL.get(i - 1).T - 2 * prevL.get(i).T + prevL.get(i + 1).T)
                         / Math.pow(dz, 2)
-                        + w(prevL.get(i).X, prevL.get(i).T, params) + prevL.get(i).T);
+                        + w(prevL.get(i).X, prevL.get(i).T, params)) + prevL.get(i).T;
                 double newX = dt * (D * (prevL.get(i - 1).X - 2 * prevL.get(i).X + prevL.get(i + 1).X)
                         / Math.pow(dz, 2)
-                        + w(prevL.get(i).X, prevL.get(i).T, params) + prevL.get(i).X);
+                        + w(prevL.get(i).X, prevL.get(i).T, params)) + prevL.get(i).X;
                 newTX.add(new SimpleZSection(newT, newX));
             }
             newTX.add(new SimpleZSection(Parameters.T0, 1));

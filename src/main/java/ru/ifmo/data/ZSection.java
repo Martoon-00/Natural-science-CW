@@ -15,13 +15,13 @@ public class ZSection {
     public final double X;
 
     /**
-     * speed of concentration change
+     * speed of react
      */
-    public final double VX;
+    public final double W;
 
-    public ZSection(double T, double X, double VX) {
+    public ZSection(double T, double X, double W) {
         this.T = T;
         this.X = X;
-        this.VX = VX;
+        this.W = W;
     }
 }

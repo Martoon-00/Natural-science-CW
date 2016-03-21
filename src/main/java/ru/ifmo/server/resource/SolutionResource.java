@@ -2,10 +2,9 @@ package ru.ifmo.server.resource;
 
 import com.sun.jersey.spi.resource.Singleton;
 import ru.ifmo.data.Parameters;
-import ru.ifmo.data.SimpleTSection;
 import ru.ifmo.data.TSection;
+import ru.ifmo.methods.ExtendedSolver;
 import ru.ifmo.methods.RegisteredSolvers;
-import ru.ifmo.methods.Solver;
 import ru.ifmo.server.ServerHelper;
 
 import javax.ws.rs.*;
@@ -36,25 +35,31 @@ public class SolutionResource {
             @QueryParam("num") int num,
             @QueryParam("dz") double dz,
             @QueryParam("dt") double dt,
-            @QueryParam("zNum") int zNum
+            @QueryParam("zNum") int zNum,
+            @QueryParam("K") double K,
+            @QueryParam("D") double D,
+            @QueryParam("E") double E,
+            @QueryParam("alpha") double alpha
     ) {
         try {
             // Note: when constructor changes, just assign some temporal values to new parameters
             Parameters params = new Parameters(
-                    1,
+                    alpha,
                     dt,
                     dz,
-                    zNum
+                    zNum,
+                    K,
+                    E,
+                    D
             );
 
             StringBuilder answer = new StringBuilder();
-            Solver solver = RegisteredSolvers.solvers.get(method);
+            ExtendedSolver solver = RegisteredSolvers.solvers.get(method);
             if (solver == null)
                 throw new IllegalArgumentException(String.format("'%s' method is not registered", method));
 
-            List<SimpleTSection> presolution = solver.solve(from + num, params)
+            List<TSection> solution = solver.extendedSolve(from + num, params)
                     .subList(from, from + num);
-            List<TSection> solution = TSection.extend(presolution);
 
             answer.append(ServerHelper.solutionToString(solution))
                     .append("\n\n");

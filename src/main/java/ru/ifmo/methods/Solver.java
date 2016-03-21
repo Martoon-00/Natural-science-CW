@@ -1,13 +1,28 @@
 package ru.ifmo.methods;
 
-import ru.ifmo.data.Parameters;
-import ru.ifmo.data.SimpleTSection;
-import ru.ifmo.data.SimpleZSection;
+import ru.ifmo.data.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public abstract class Solver {
+public abstract class Solver implements ExtendedSolver {
+    @Override
+    public List<TSection> extendedSolve(int totalSteps, Parameters params) {
+        List<SimpleTSection> presolution = solve(totalSteps, params);
+
+        Function<SimpleZSection, ZSection> mapZSection = section ->
+                new ZSection(section.T, section.X, w(section.X, section.T, params));
+        return presolution.stream()
+                .map(tSection -> new TSection(
+                        tSection.zs.stream()
+                                .map(mapZSection)
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+    }
+
     public abstract List<SimpleTSection> solve(int totalSteps, Parameters params);
 
     protected SimpleTSection initTX(int zNum) {
@@ -20,6 +35,6 @@ public abstract class Solver {
     }
 
     protected double w(double x, double t, Parameters parameters) {
-        return -Parameters.K * Math.pow(x, parameters.alpha) * Math.exp(-Parameters.E / (Parameters.R * t));
+        return -parameters.K * Math.pow(x, parameters.alpha) * Math.exp(-parameters.E / (Parameters.R * t));
     }
 }

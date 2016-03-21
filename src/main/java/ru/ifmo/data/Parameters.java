@@ -7,8 +7,6 @@ public class Parameters {
     /**
      * Constant parameters
      */
-    public static final double K = 1.6e6;
-    public static final double E = 8e4;
     public static final double R = 8.314;
     public static final double Q = 7e5;
     public static final double rho = 830;
@@ -17,9 +15,6 @@ public class Parameters {
     public static final double Tm = T0 + Q / C;
     public static final double lambda = 0.13;
     public static final double kappa = lambda / (rho * C);
-
-    //// TODO:  D = 8e-12 
-    public static final double D = 7.9104296e-8;
 
     /**
      * Varying parameters
@@ -32,13 +27,18 @@ public class Parameters {
     // We wish to count or get this here, because there are different ways to perform a rounding of the fraction
     public final int zNum;
 
-    // TODO: add as many as you can!
+    public final double K;
+    public final double E;
+    //// TODO:  D = 8e-12
+    public final double D;
 
-
-    public Parameters(double alpha, double dt, double dz, int zNum) {
+    public Parameters(double alpha, double dt, double dz, int zNum, double k, double e, double d) {
         this.alpha = alpha;
         this.dt = dt;
         this.dz = dz;
         this.zNum = zNum;
+        K = k;
+        E = e;
+        D = d;
     }
 }
