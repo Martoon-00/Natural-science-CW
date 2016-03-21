@@ -1,24 +1,36 @@
 package ru.ifmo.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Equation parameters which may vary
  */
 public class Parameters {
-    /**
-     * Constant parameters
-     */
-    public static final double R = 8.314;
-    public static final double Q = 7e5;
-    public static final double rho = 830;
-    public static final double T0 = 293;
-    public static final double C = 1980;
-    public static final double Tm = T0 + Q / C;
-    public static final double lambda = 0.13;
-    public static final double kappa = lambda / (rho * C);
+    public static final Map<String, String> defaults = new HashMap<String, String>() {{
+        put("R", "8.134");
+        put("Q", "7e5");
+        put("rho", "830");
+        put("T0", "293");
+        put("C", "1980");
+        put("Tm", "T0 + Q / C");
+        put("lambda", "0.13");
+        put("kappa", "lambda / (rho * C)");
+        put("K", "1.6e6");
+        put("E", "8e4");
+        put("D", "7.9104296e-8");
+        put("alpha", "1");
+    }};
 
-    /**
-     * Varying parameters
-     */
+    public final double R;
+    public final double Q;
+    public final double rho;
+    public final double T0;
+    public final double C;
+    public final double Tm;
+    public final double lambda;
+    public final double kappa;
+
     public final double alpha;
     public final double dt;
     public final double dz;
@@ -32,7 +44,15 @@ public class Parameters {
     //// TODO:  D = 8e-12
     public final double D;
 
-    public Parameters(double alpha, double dt, double dz, int zNum, double k, double e, double d) {
+    public Parameters(double r, double q, double rho, double t0, double c, double tm, double lambda, double kappa, double alpha, double dt, double dz, int zNum, double k, double e, double d) {
+        R = r;
+        Q = q;
+        this.rho = rho;
+        T0 = t0;
+        C = c;
+        Tm = tm;
+        this.lambda = lambda;
+        this.kappa = kappa;
         this.alpha = alpha;
         this.dt = dt;
         this.dz = dz;
