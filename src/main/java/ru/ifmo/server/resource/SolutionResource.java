@@ -26,6 +26,14 @@ public class SolutionResource {
     }
 
     @GET
+    @Path("defparams")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String defaultParams() {
+        return ServerHelper.defaultParamsString();
+    }
+
+    @GET
     @Path("solve")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
@@ -33,18 +41,40 @@ public class SolutionResource {
             @QueryParam("method") String method,
             @QueryParam("from") int from,
             @QueryParam("num") int num,
-            @QueryParam("dz") double dz,
+            @QueryParam("R") double R,
+            @QueryParam("Q") double Q,
+            @QueryParam("rho") double rho,
+            @QueryParam("T0") double T0,
+            @QueryParam("C") double C,
+            @QueryParam("Tm") double Tm,
+            @QueryParam("lambda") double lambda,
+            @QueryParam("kappa") double kappa,
+            @QueryParam("alpha") double alpha,
             @QueryParam("dt") double dt,
-            @QueryParam("alpha") int alpha,
-            @QueryParam("zNum") int zNum
+            @QueryParam("dz") double dz,
+            @QueryParam("zNum") int zNum,
+            @QueryParam("K") double K,
+            @QueryParam("E") double E,
+            @QueryParam("D") double D
     ) {
         try {
             // Note: when constructor changes, just assign some temporal values to new parameters
             Parameters params = new Parameters(
+                    R,
+                    Q,
+                    rho,
+                    T0,
+                    C,
+                    Tm,
+                    lambda,
+                    kappa,
                     alpha,
                     dt,
                     dz,
-                    zNum
+                    zNum,
+                    K,
+                    E,
+                    D
             );
 
             StringBuilder answer = new StringBuilder();

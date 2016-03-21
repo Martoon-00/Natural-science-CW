@@ -10,29 +10,31 @@ import java.util.stream.Collectors;
 public abstract class Solver implements ExtendedSolver {
     @Override
     public List<TSection> extendedSolve(int totalSteps, Parameters params) {
-        List<TSection> presolution = TSection.extend(solve(totalSteps, params));
-        // divide newly created VXs by dt
-        Function<List<ZSection>, List<ZSection>> mapZSections = zSections -> zSections.stream()
-                .map(section -> new ZSection(section.T, section.X, section.VX / params.dt))
-                .collect(Collectors.toList());
+        List<SimpleTSection> presolution = solve(totalSteps, params);
+
+        Function<SimpleZSection, ZSection> mapZSection = section ->
+                new ZSection(section.T, section.X, w(section.X, section.T, params));
         return presolution.stream()
-                .map(tSection ->
-                        new TSection(mapZSections.apply(tSection.zs)))
+                .map(tSection -> new TSection(
+                        tSection.zs.stream()
+                                .map(mapZSection)
+                                .collect(Collectors.toList())
+                ))
                 .collect(Collectors.toList());
     }
 
     public abstract List<SimpleTSection> solve(int totalSteps, Parameters params);
 
-    protected SimpleTSection initTX(int zNum) {
+    protected SimpleTSection initTX(Parameters params) {
         List<SimpleZSection> res = new ArrayList<>();
-        res.add(new SimpleZSection(Parameters.Tm, 0.0));
-        for (int i = 1; i < zNum; i++) {
-            res.add(new SimpleZSection(Parameters.T0, 1.0));
+        res.add(new SimpleZSection(params.Tm, 0.0));
+        for (int i = 1; i < params.zNum; i++) {
+            res.add(new SimpleZSection(params.T0, 1.0));
         }
         return new SimpleTSection(res);
     }
 
     protected double w(double x, double t, Parameters parameters) {
-        return -Parameters.K * Math.pow(x, parameters.alpha) * Math.exp(-Parameters.E / (Parameters.R * t));
+        return -parameters.K * Math.pow(x, parameters.alpha) * Math.exp(-parameters.E / (parameters.R * t));
     }
 }

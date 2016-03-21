@@ -4,7 +4,7 @@ import globals.*
 
 class SolutionKeeper {
  	private static var CHECK_DELAY: Number = 100
-	private static var LOAD_LIMIT: Number = 999
+	private static var LOAD_LIMIT: Number = 9999
 	private var BLOCK_SIZE: Number
 	
 	private var request: Request
@@ -20,14 +20,14 @@ class SolutionKeeper {
 		var _this = this
 		if (params == undefined)
 			throw new Error("Passed undefined parameters in SolutionKeeper constructor")
-		this.request = request.setParser(function(){ return _this.parseData.apply(_this, arguments) })
 		this.params = params.copy({ method: method })
 		
+		this.request = request
 		this.method = method
 		data = new Array()
 		BLOCK_SIZE = int(params.loadSpeed)
 		if (BLOCK_SIZE == 0)
-			BLOCK_SIZE = Math.max(int(50 / (0.1 / params.dz)), 1)
+			BLOCK_SIZE = Math.max(int(20 / (0.1 / params.dz)), 1)
 		
 		onUpdate = new Listener()
 		
@@ -42,15 +42,16 @@ class SolutionKeeper {
 			from: data.length, 
 			num: BLOCK_SIZE 
 		})
-		request.send(function(){ _this.fillData.apply(_this, arguments) }, p)
+		request.send(function(data: String){ 
+			if (!closed) 
+				_this.fillData.call(_this, parseData(data)) 			
+		}, p)
 		
 		if (!closed) 
 			_global.setTimeout(function(){ _this.check() }, CHECK_DELAY)
 	}
 	
-	private function fillData(received: Object): Void { 
-		if (closed) return
-		
+	private function fillData(received: Object): Void {  
 		var blockIndex:Number = received.from
 		var receivedData: Array = received.data
 		var dataSize = data.length
@@ -65,13 +66,13 @@ class SolutionKeeper {
 		}
 	}
 	
-	private function parseData(s: String) {   // converts to data array [index in block][x]
+	private static function parseData(s: String) {  // converts to data array [index in block][x]
 		function parseBlock(block: String) {
 			var res = {}
 			var lines = block.split("\n")
 			res.zSections = lines.slice(0, -1).map(function(line) {
 				var vals = line.split(" ").map(function(v){ return Number(v.replace(",", ".")) })
-				return { t: vals[0], x: vals[1], vx: vals[2] }
+				return { t: vals[0], x: vals[1], w: vals[2] }
 			})
 			res.vf = Number(lines[lines.length - 1])
 			return res
@@ -81,6 +82,15 @@ class SolutionKeeper {
 		var curData = blocks.slice(0, -1).map(parseBlock)		
 		var extra = blocks[blocks.length - 1].split(" ").map(function(v){ return Number(v) })
 		return { data: curData, from: extra[0] }
+	}
+	
+	private static function paramsToString(params: Object) {
+		var s: String = ""
+		for (var i in params) {
+			var p = params[i]
+			s += i + ":" + p[i] + ","
+		}
+		return s.slice(0, -1)
 	}
 	
 	function available(): Number { return data.length }
