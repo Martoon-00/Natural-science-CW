@@ -15,10 +15,11 @@ class lang.Objects {
 			return size() == 0
 		}
 	
-		proto.print = function(): Void { 
+		proto.print = function() { 
 			trace("<value> -> " + this)
 			iterate(this, function(name, value){ trace(name + " -> " + value) })
 			trace("---// end of print //---")
+			return this
 		}
 		
 		proto.set = function(): Object {
@@ -26,6 +27,12 @@ class lang.Objects {
 				this[arguments[i]] = arguments[i + 1]
 			}
 			return this
+		}
+		
+		proto.map = function(f: Function): Object {
+			var res = new Object()
+			for (var i in this) res[i] = f(this[i])
+			return res
 		}
 		
 		proto.copy = function(dist: Object) {

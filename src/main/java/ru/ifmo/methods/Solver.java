@@ -25,16 +25,16 @@ public abstract class Solver implements ExtendedSolver {
 
     public abstract List<SimpleTSection> solve(int totalSteps, Parameters params);
 
-    protected SimpleTSection initTX(int zNum) {
+    protected SimpleTSection initTX(Parameters params) {
         List<SimpleZSection> res = new ArrayList<>();
-        res.add(new SimpleZSection(Parameters.Tm, 0.0));
-        for (int i = 1; i < zNum; i++) {
-            res.add(new SimpleZSection(Parameters.T0, 1.0));
+        res.add(new SimpleZSection(params.Tm, 0.0));
+        for (int i = 1; i < params.zNum; i++) {
+            res.add(new SimpleZSection(params.T0, 1.0));
         }
         return new SimpleTSection(res);
     }
 
     protected double w(double x, double t, Parameters parameters) {
-        return -parameters.K * Math.pow(x, parameters.alpha) * Math.exp(-parameters.E / (Parameters.R * t));
+        return -parameters.K * Math.pow(x, parameters.alpha) * Math.exp(-parameters.E / (parameters.R * t));
     }
 }
