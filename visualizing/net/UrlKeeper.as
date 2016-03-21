@@ -7,10 +7,9 @@ class net.UrlKeeper {
 		root = rootUrl
 	}
 	
-	function request(path: String, parse: Function): Request { 
+	function request(path: String): Request {
 		var _this = this
 		return new Request(function(){ return _this.root.defunc() + path })
-			.setParser(parse)
 	}
 	
 	function toString(): String { return root }
