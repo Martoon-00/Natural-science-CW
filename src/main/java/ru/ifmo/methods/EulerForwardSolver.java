@@ -19,7 +19,7 @@ public class EulerForwardSolver extends Solver {
 
         double dz = params.dz;
         double dt = params.dt;
-        final double D = Parameters.D;
+        final double D = params.D;
         final double kappa = Parameters.kappa;
         List<SimpleZSection> prevL = prev.zs;
 

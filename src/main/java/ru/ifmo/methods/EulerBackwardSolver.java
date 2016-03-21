@@ -18,7 +18,7 @@ public class EulerBackwardSolver extends BackwardSolver {
 
         double dz = params.dz;
         double dt = params.dt;
-        final double D = Parameters.D;
+        final double D = params.D;
         final double kappa = Parameters.kappa;
         final double Q = Parameters.Q;
         final double C = Parameters.C;

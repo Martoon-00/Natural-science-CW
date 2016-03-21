@@ -35,6 +35,6 @@ public abstract class Solver implements ExtendedSolver {
     }
 
     protected double w(double x, double t, Parameters parameters) {
-        return -Parameters.K * Math.pow(x, parameters.alpha) * Math.exp(-Parameters.E / (Parameters.R * t));
+        return -parameters.K * Math.pow(x, parameters.alpha) * Math.exp(-parameters.E / (Parameters.R * t));
     }
 }

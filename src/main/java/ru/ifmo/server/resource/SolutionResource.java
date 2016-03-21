@@ -35,8 +35,11 @@ public class SolutionResource {
             @QueryParam("num") int num,
             @QueryParam("dz") double dz,
             @QueryParam("dt") double dt,
-            @QueryParam("alpha") double alpha,
-            @QueryParam("zNum") int zNum
+            @QueryParam("zNum") int zNum,
+            @QueryParam("K") double K,
+            @QueryParam("D") double D,
+            @QueryParam("E") double E,
+            @QueryParam("alpha") double alpha
     ) {
         try {
             // Note: when constructor changes, just assign some temporal values to new parameters
@@ -44,7 +47,10 @@ public class SolutionResource {
                     alpha,
                     dt,
                     dz,
-                    zNum
+                    zNum,
+                    K,
+                    E,
+                    D
             );
 
             StringBuilder answer = new StringBuilder();
