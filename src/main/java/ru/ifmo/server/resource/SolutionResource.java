@@ -78,7 +78,7 @@ public class SolutionResource {
             );
 
             StringBuilder answer = new StringBuilder();
-            ExtendedSolver solver = RegisteredSolvers.solvers.get(method);
+            ExtendedSolver solver = RegisteredSolvers.solvers.get(method).get();
             if (solver == null)
                 throw new IllegalArgumentException(String.format("'%s' method is not registered", method));
 
