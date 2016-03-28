@@ -13,6 +13,7 @@ class diag.Diagram extends MovieClip {
 	
 	var xScale: LinearFunc
 	var yScale: LinearFunc
+	var xAutoScale: Boolean = true
 	var yAutoScale: Boolean = true
 	
 	var gridParts: Number = 10
@@ -177,7 +178,7 @@ class diag.Diagram extends MovieClip {
 		return this;
 	}
 	
-	function draw(liner: Function, points: Array): Diagram { 
+	function draw(liner: Function, points: Array): Diagram {
 		toDraw.push({ liner: liner, points: points })
 		return this;
 	}
@@ -209,32 +210,42 @@ class diag.Diagram extends MovieClip {
 				.transform(scalingTrans)
 			
 			new Stream(points)
-				.map(function(c: Coord){ return new Coord(c.x, _this.yScale.apply(c.y)) })
+				.map(function(c: Coord){ return new Coord(_this.xScale.apply(c.x), _this.yScale.apply(c.y)) })
 				.forEachArg(function(point){ 
 					dr.lineTo(point)
 				})
 		}
 		
+		// y = 0 line
 		new Drawer(field)
 			.lineStyle(2, 0x00FF00)
 			.transform(scalingTrans)
-			.moveTo(xScale.apply(0), yScale.apply(0))
-			.lineTo(xScale.apply(1), yScale.apply(0))
+			.moveTo(0, 0)
+			.lineTo(1, 0)
 		return this
 	}
 	
 	
 	function checkResize(points): Void { 
-		if (!yAutoScale) return;
+		var needRedraw = false
+		var x_lf = math.LinearFunc.normalizer(new Stream(points.concat(new Coord(0, 0), new Coord(0, 1e-2)))
+			.map(Stream.GETTER("x"))
+			.toArray())
+		if (!x_lf.equals(xScale)) {
+			xScale = x_lf
+			needRedraw = true
+		}
 		
-		var lf = math.LinearFunc.normalizer(new Stream(points.concat(new Coord(0, 0), new Coord(0, 1e-2)))
+		var y_lf = math.LinearFunc.normalizer(new Stream(points.concat(new Coord(0, 0), new Coord(0, 1e-2)))
 			.map(Stream.GETTER("y"))
 			.toArray())
-		
-		if (lf.equals(yScale)) return;
-	
-		yScale = lf
-		drawAxes()
+		if (!y_lf.equals(yScale)) {
+			yScale = y_lf
+			needRedraw = true
+		}
+
+		if (needRedraw)				
+			drawAxes()
 	}
 
 }

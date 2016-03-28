@@ -20,6 +20,7 @@ public class Parameters {
         put("E", "8e4");
         put("D", "7.9104296e-8");
         put("alpha", "1");
+        put("l", "1");
     }};
 
     public final double R;
@@ -34,6 +35,7 @@ public class Parameters {
     public final double alpha;
     public final double dt;
     public final double dz;
+    private final double l;  // out of use. Consider zNum instead
 
     // Number of z steps, approximately equals to 1 / dz.
     // We wish to count or get this here, because there are different ways to perform a rounding of the fraction
@@ -44,7 +46,7 @@ public class Parameters {
     //// TODO:  D = 8e-12
     public final double D;
 
-    public Parameters(double r, double q, double rho, double t0, double c, double tm, double lambda, double kappa, double alpha, double dt, double dz, int zNum, double k, double e, double d) {
+    public Parameters(double r, double q, double rho, double t0, double c, double tm, double lambda, double kappa, double alpha, double dt, double dz, double l, int zNum, double k, double e, double d) {
         R = r;
         Q = q;
         this.rho = rho;
@@ -56,6 +58,7 @@ public class Parameters {
         this.alpha = alpha;
         this.dt = dt;
         this.dz = dz;
+        this.l = l;
         this.zNum = zNum;
         K = k;
         E = e;
