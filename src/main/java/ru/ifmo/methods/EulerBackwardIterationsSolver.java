@@ -7,7 +7,7 @@ import ru.ifmo.data.SimpleZSection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EulerBackwardIterationsSolver extends BackwardSolver {
+public class EulerBackwardIterationsSolver extends Solver {
 
     private int iterationsNumber;
 
@@ -30,7 +30,9 @@ public class EulerBackwardIterationsSolver extends BackwardSolver {
         final double C = params.C;
         List<SimpleZSection> prevL = prev.zs;
 
-        prepareForProgonka(prevL.size(), D, kappa, dt, dz);
+        BackwardsUtils utils = new BackwardsUtils();
+
+        int n = prevL.size();
 
         List<Double> curX = new ArrayList<>(prevL.size());
         List<Double> curT = new ArrayList<>(prevL.size());
@@ -40,23 +42,31 @@ public class EulerBackwardIterationsSolver extends BackwardSolver {
         }
 
         for (int k = 1; k < totalSteps; k++) {
+            assert prevL.size() > 1;
+
             for (int j = 0; j < iterationsNumber; ++j) {
-                List<Double> dX = new ArrayList<>(prevL.size());
-                dX.add(0.0);
-                for (int i = 1; i < prevL.size() - 1; ++i) {
-                    dX.add(prevL.get(i).X / dt + w(curX.get(i), curT.get(i), params));
-                }
-                dX.add(1.0);
+                utils.prepareForProgonka(prevL.size(), D, kappa, dt, dz);
 
-                List<Double> dT = new ArrayList<>(prevL.size());
-                dT.add(params.Tm);
+                double[] dX = new double[n];
+                double curXValue = 0.0;
+                dX[0] = curXValue;
                 for (int i = 1; i < prevL.size() - 1; ++i) {
-                    dT.add(prevL.get(i).T / dt - Q / C * w(curX.get(i), curT.get(i), params));
+                    curXValue = prevL.get(i).X / dt + w(curX.get(i), curT.get(i), params);
+                    dX[i] = curXValue;
                 }
-                dT.add(params.T0);
+                dX[n - 1] = curXValue;
 
-                curX = applyProgonka(aX, bX, cX, dX);
-                curT = applyProgonka(aT, bT, cT, dT);
+                double[] dT = new double[n];
+                double curTValue = params.Tm;
+                dT[0] = curTValue;
+                for (int i = 1; i < prevL.size() - 1; ++i) {
+                    curTValue = prevL.get(i).T / dt - Q / C * w(curX.get(i), curT.get(i), params);
+                    dT[i] = curTValue;
+                }
+                dT[n - 1] = curTValue;
+
+                curX = utils.applyProgonka(utils.aX, utils.bX, utils.cX, dX);
+                curT = utils.applyProgonka(utils.aT, utils.bT, utils.cT, dT);
             }
 
             List<SimpleZSection> newTX = new ArrayList<>();
