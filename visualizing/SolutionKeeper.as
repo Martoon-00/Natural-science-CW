@@ -3,9 +3,13 @@ import net.*
 import globals.*
 
 class SolutionKeeper {
- 	private static var CHECK_DELAY: Number = 100
-	private static var LOAD_LIMIT: Number = 9999
+	static var DEF_LOAD_LIMIT: Number = 9999
+	static var DEF_LOAD_SPEED: Number = 20
+	static var DEF_CHECK_DELAY: Number = 100
+	private var LOAD_LIMIT: Number
+ 	private var CHECK_DELAY: Number 
 	private var BLOCK_SIZE: Number
+	private var skipProbability: Number
 	
 	private var request: Request
 	private var params: Object
@@ -25,9 +29,10 @@ class SolutionKeeper {
 		this.request = request
 		this.method = method
 		data = new Array()
-		BLOCK_SIZE = int(params.loadSpeed)
-		if (BLOCK_SIZE == 0)
-			BLOCK_SIZE = Math.max(int(20 / (0.1 / params.dz)), 1)
+		LOAD_LIMIT = Optional.of(params.iterations).orElse(DEF_LOAD_LIMIT)
+		var pointsPerBlock = Optional.of(params.loadSpeed).orElse(DEF_LOAD_SPEED) * params.dz
+		BLOCK_SIZE = Math.ceil(pointsPerBlock)
+		CHECK_DELAY = Optional.of(params.loadDelay).orElse(DEF_CHECK_DELAY) / (pointsPerBlock / BLOCK_SIZE)
 		
 		onUpdate = new Listener()
 		

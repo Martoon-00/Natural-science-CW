@@ -26,16 +26,20 @@ public class EulerForwardSolver extends Solver {
         for (int k = 1; k < totalSteps; k++) {
             List<SimpleZSection> newTX = new ArrayList<>();
             newTX.add(new SimpleZSection(params.Tm, 0));
+            double newT = 0, newX = 0;
             for (int i = 1; i < params.zNum - 1; i++) {
-                double newT = dt * (kappa * (prevL.get(i - 1).T - 2 * prevL.get(i).T + prevL.get(i + 1).T)
+                newT = dt * (kappa * (prevL.get(i - 1).T - 2 * prevL.get(i).T + prevL.get(i + 1).T)
                         / Math.pow(dz, 2)
                         + w(prevL.get(i).X, prevL.get(i).T, params)) + prevL.get(i).T;
-                double newX = dt * (D * (prevL.get(i - 1).X - 2 * prevL.get(i).X + prevL.get(i + 1).X)
+                newX = dt * (D * (prevL.get(i - 1).X - 2 * prevL.get(i).X + prevL.get(i + 1).X)
                         / Math.pow(dz, 2)
                         + w(prevL.get(i).X, prevL.get(i).T, params)) + prevL.get(i).X;
+                if (newX < 0.0)
+                    newX = 0;
                 newTX.add(new SimpleZSection(newT, newX));
             }
-            newTX.add(new SimpleZSection(params.T0, 1));
+
+            newTX.add(new SimpleZSection(newT, newX));
             res.add(new SimpleTSection(newTX));
             prevL = newTX;
         }

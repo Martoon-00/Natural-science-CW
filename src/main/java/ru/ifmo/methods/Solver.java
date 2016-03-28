@@ -13,7 +13,7 @@ public abstract class Solver implements ExtendedSolver {
         List<SimpleTSection> presolution = solve(totalSteps, params);
 
         Function<SimpleZSection, ZSection> mapZSection = section ->
-                new ZSection(section.T, section.X, w(section.X, section.T, params));
+                new ZSection(section.T, section.X, -w(section.X, section.T, params));
         return presolution.stream()
                 .map(tSection -> new TSection(
                         tSection.zs.stream()
