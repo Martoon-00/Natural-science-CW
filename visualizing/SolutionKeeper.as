@@ -24,13 +24,13 @@ class SolutionKeeper {
 		var _this = this
 		if (params == undefined)
 			throw new Error("Passed undefined parameters in SolutionKeeper constructor")
-		this.params = params.copy({ method: method })
+		this.params = params.copy({ method: method, id: random(1e9) })
 		
 		this.request = request
 		this.method = method
 		data = new Array()
 		LOAD_LIMIT = Optional.of(params.iterations).orElse(DEF_LOAD_LIMIT)
-		var pointsPerBlock = Optional.of(params.loadSpeed).orElse(DEF_LOAD_SPEED) * params.dz
+		var pointsPerBlock = Optional.of(params.loadSpeed).orElse(DEF_LOAD_SPEED) / params.zNum
 		BLOCK_SIZE = Math.ceil(pointsPerBlock)
 		CHECK_DELAY = Optional.of(params.loadDelay).orElse(DEF_CHECK_DELAY) / (pointsPerBlock / BLOCK_SIZE)
 		

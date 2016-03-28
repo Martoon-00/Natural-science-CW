@@ -41,6 +41,7 @@ public class SolutionResource {
             @QueryParam("method") String method,
             @QueryParam("from") int from,
             @QueryParam("num") int num,
+            @QueryParam("id") int id,
             @QueryParam("R") double R,
             @QueryParam("Q") double Q,
             @QueryParam("rho") double rho,
@@ -51,32 +52,20 @@ public class SolutionResource {
             @QueryParam("kappa") double kappa,
             @QueryParam("alpha") double alpha,
             @QueryParam("dt") double dt,
+            @QueryParam("l") double l,
             @QueryParam("dz") double dz,
             @QueryParam("zNum") int zNum,
             @QueryParam("K") double K,
             @QueryParam("E") double E,
             @QueryParam("D") double D
     ) {
-        try {
-            // Note: when constructor changes, just assign some temporal values to new parameters
-            Parameters params = new Parameters(
-                    R,
-                    Q,
-                    rho,
-                    T0,
-                    C,
-                    Tm,
-                    lambda,
-                    kappa,
-                    alpha,
-                    dt,
-                    dz,
-                    zNum,
-                    K,
-                    E,
-                    D
-            );
+        return processRequest(method, from, num, new Parameters(
+                R, Q, rho, T0, C, Tm, lambda, kappa, alpha, dt, dz, l, zNum, K, E, D
+        ));
+    }
 
+    private String processRequest(String method, int from, int num, Parameters params) {
+        try {
             StringBuilder answer = new StringBuilder();
             ExtendedSolver solver = RegisteredSolvers.solvers.get(method).get();
             if (solver == null)
